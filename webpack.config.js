@@ -21,6 +21,7 @@ module.exports = {
     },
     plugins: [
       new HtmlWebpackPlugin({
+        title: 'RSS агрегатор',
         template: 'index.html',
       }),
     ],
