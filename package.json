@@ -25,6 +25,9 @@
   "devDependencies": {
     "@webpack-cli/generators": "^2.4.1",
     "css-loader": "^6.5.1",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-plugin-import": "^2.25.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "postcss-loader": "^6.2.0",
