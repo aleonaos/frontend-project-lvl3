@@ -39,6 +39,8 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "dependencies": {
-    "bootstrap": "^5.1.3"
+    "bootstrap": "^5.1.3",
+    "on-change": "^4.0.0",
+    "yup": "^0.32.11"
   }
 }
