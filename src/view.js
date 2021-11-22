@@ -1,4 +1,4 @@
-import onChange from "on-change";
+import onChange from 'on-change';
 
 const textFeedback = {
   valid: 'RSS успешно загружен',
@@ -6,7 +6,9 @@ const textFeedback = {
   double: 'RSS уже существует',
 };
 
-const renderForm = (status, { form, input, feedback }) => {
+const renderForm = (status, elements) => {
+  const { form, input, feedback } = elements;
+
   if (status === 'valid') {
     form.reset();
     input.focus();
