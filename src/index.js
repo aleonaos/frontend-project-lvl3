@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import validate from './validate';
+import app from './app';
 
-console.log('Hello World!');
-console.log(validate('https://ru.hexlet.io/lessons.rss', []));
+app();
