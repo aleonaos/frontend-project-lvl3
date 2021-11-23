@@ -55,7 +55,6 @@ const app = () => {
             watchedState.form.status = 'failed';
           });
       });
-      console.log(watchedState)
     });
 };
 
