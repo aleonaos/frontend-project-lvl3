@@ -1,32 +1,50 @@
 import onChange from 'on-change';
 
-const textFeedback = {
-  valid: 'RSS успешно загружен',
-  invalid: 'Ссылка должна быть валидным URL',
-  double: 'RSS уже существует',
-};
-
-const renderForm = (status, elements) => {
+const renderSuccess = (elements, i18n) => {
   const { form, input, feedback } = elements;
 
-  if (status === 'valid') {
-    form.reset();
-    input.focus();
-    input.classList.remove('is-invalid');
-    feedback.classList.remove('text-danger');
-    feedback.classList.add('text-success');
-  } else {
-    input.classList.add('is-invalid');
-    feedback.classList.remove('text-success');
-    feedback.classList.add('text-danger');
-  }
-  feedback.innerHTML = textFeedback[status];
+  form.reset();
+  input.focus();
+  input.classList.remove('is-invalid');
+  feedback.classList.remove('text-danger');
+  feedback.classList.add('text-success');
+  feedback.innerHTML = i18n.t('feedback.success');
 };
 
-const initView = (state, elements) => {
+const renderError = (error, elements) => {
+  const { input, feedback } = elements;
+
+  input.classList.add('is-invalid');
+  feedback.classList.remove('text-success');
+  feedback.classList.add('text-danger');
+  feedback.innerHTML = error;
+};
+
+const renderForm = ({ status, error }, elements, i18n) => {
+  const { submit } = elements;
+
+  switch (status) {
+    case 'filling':
+      submit.setAttribute('disabled', true);
+      break;
+    case 'finished':
+      submit.removeAttribute('disabled');
+      renderSuccess(elements, i18n);
+      break;
+    case 'failed':
+      submit.removeAttribute('disabled');
+      renderError(error, elements);
+      break;
+    default:
+      throw new Error(`Unknown status^ ${status}`);
+  }
+};
+
+const initView = (state, elements, i18n) => {
   elements.input.focus();
   const mapping = {
-    'form.status': () => renderForm(state.form.status, elements),
+    'form.status': () => renderForm(state.form, elements, i18n),
+    'form.error': () => renderError(state.form.error, elements),
   };
 
   const watchedState = onChange(state, (path) => {
