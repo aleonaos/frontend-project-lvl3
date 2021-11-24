@@ -48,21 +48,22 @@ const app = () => {
 
       const watchedState = initView(state, elements, i18nextInstance);
 
-      const updatePosts = (state) => {
+      const updatePosts = () => {
         watchedState.outputData.updateStatus = 'loading';
       
-        const { validUrls: links } = state;
+        const { validUrls: links } = watchedState;
         links.forEach((link) => {
           axios.get(routes.getRssPath(link))
             .then((response) => {
               const { posts: updatedPosts } = parse(response.data.contents);
-              const { posts } = state.outputData;
+              const { posts } = watchedState.outputData;
               const newPosts = _.differenceWith(posts, updatedPosts, _.isEqual);
+
               watchedState.outputData.posts = [...newPosts, ...posts];
               watchedState.outputData.updateStatus = 'loaded';
             });
         });
-        setTimeout(() => updatePosts(state, links), 5000);
+        setTimeout(() => updatePosts(), 5000);
       };
 
       elements.form.addEventListener('submit', (e) => {
