@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 export default (content) => {
   const parser = new DOMParser();
@@ -19,7 +19,12 @@ export default (content) => {
     const postDescription = item.querySelector('description').textContent;
     const postLink = item.querySelector('link').textContent;
 
-    posts.push({ feedId: id, postTitle, postDescription, postLink });
+    posts.push({
+      feedId: id,
+      postTitle,
+      postDescription,
+      postLink,
+    });
   });
 
   return {

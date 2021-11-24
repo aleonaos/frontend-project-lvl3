@@ -1,7 +1,6 @@
 import i18next from 'i18next';
-import resources from './locales/index';
 import axios from 'axios';
-import _ from 'lodash';
+import resources from './locales/index';
 import initView from './view';
 import validate from './validate';
 import parse from './parser';
@@ -30,8 +29,10 @@ const app = () => {
           enteredUrl: '',
         },
         validUrls: [],
-        posts: [],
-        feeds: [],
+        outputData: {
+          feeds: [],
+          posts: [],
+        },
       };
 
       const elements = {
@@ -58,10 +59,11 @@ const app = () => {
             axios.get(routes.getRssPath(url))
               .then((response) => {
                 const parseData = parse(response.data.contents);
-                console.log(response)
-                const { feed, posts } = parseData;
-                console.log(feed, posts)
+                const { feed: newFeeds, posts: newPosts } = parseData;
+                watchedState.outputData.feeds.push(newFeeds);
+                watchedState.outputData.posts.push(...newPosts);
                 watchedState.validUrls.push(url);
+                watchedState.form.status = 'finished';
               })
               .catch(({ message }) => {
                 watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
@@ -73,7 +75,6 @@ const app = () => {
             watchedState.form.status = 'failed';
           });
       });
-      console.log(watchedState)
     });
 };
 
