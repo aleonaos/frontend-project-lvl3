@@ -1,7 +1,6 @@
 export default (content) => {
   const parser = new DOMParser();
   const rssData = parser.parseFromString(content, 'text/xml');
-  console.log(rssData)
 
   if (rssData.querySelector('parsererror')) {
     throw new Error('parserError');

@@ -44,7 +44,8 @@ const buildUlElement = () => {
   return ulElement;
 };
 
-const renderFeeds = (feeds, feedsElement, i18n) => {
+const renderFeeds = (feeds, outputElements, i18n) => {
+  const { feeds: feedsElement } = outputElements;
   feedsElement.innerHTML = '';
 
   const feedsList = buildUlElement();
@@ -69,7 +70,8 @@ const renderFeeds = (feeds, feedsElement, i18n) => {
   feedsElement.append(feedsContainer);
 };
 
-const renderPosts = (posts, postsElement, i18n) => {
+const renderPosts = (posts, outputElements, i18n) => {
+  const { posts: postsElement } = outputElements;
   postsElement.innerHTML = '';
 
   const postsList = buildUlElement();
@@ -109,12 +111,11 @@ const renderPosts = (posts, postsElement, i18n) => {
   postsElement.append(postsContaiter);
 };
 
-const renderContent = (data, elements, i18n) => {
-  const { feeds: feedsElement, posts: postsElement } = elements;
+const renderContent = (data, outputElements, i18n) => {
   const { feeds, posts } = data;
 
-  renderFeeds(feeds, feedsElement, i18n);
-  renderPosts(posts, postsElement, i18n);
+  renderFeeds(feeds, outputElements, i18n);
+  renderPosts(posts, outputElements, i18n);
 };
 
 const renderForm = (state, elements, i18n) => {
@@ -140,13 +141,10 @@ const renderForm = (state, elements, i18n) => {
 
 const initView = (state, elements, i18n) => {
   elements.input.focus();
-  const mapping = {
-    'form.status': () => renderForm(state, elements, i18n),
-  };
 
   const watchedState = onChange(state, (path) => {
-    if (mapping[path]) {
-      mapping[path]();
+    if (path === 'form.status') {
+      renderForm(state, elements, i18n);
     }
   });
 

@@ -68,7 +68,6 @@ const app = () => {
                 watchedState.outputData.posts.push(...newPostsWithId);
                 watchedState.validUrls.push(url);
                 watchedState.form.status = 'finished';
-                console.log(watchedState)
               })
               .catch(({ message }) => {
                 watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
