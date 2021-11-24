@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import resources from './locales/index';
 import axios from 'axios';
+import _ from 'lodash';
 import initView from './view';
 import validate from './validate';
 import parse from './parser';
@@ -11,7 +12,7 @@ const getUrl = (form) => {
 };
 
 const routes = {
-  getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`
+  getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`,
 };
 
 const app = () => {
@@ -54,14 +55,16 @@ const app = () => {
         validate(url, watchedState.validUrls, i18nextInstance)
           .then(() => {
             watchedState.form.enteredUrl = url;
-            watchedState.validUrls.push(url);
             axios.get(routes.getRssPath(url))
               .then((response) => {
-                const parseData = parse(response.data.contents, i18nextInstance);
-                console.log(parseData)
+                const parseData = parse(response.data.contents);
+                console.log(response)
+                const { feed, posts } = parseData;
+                console.log(feed, posts)
+                watchedState.validUrls.push(url);
               })
               .catch(({ message }) => {
-                watchedState.form.error = message;
+                watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
                 watchedState.form.status = 'failed';
               });
           })
