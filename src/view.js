@@ -44,7 +44,6 @@ const initView = (state, elements, i18n) => {
   elements.input.focus();
   const mapping = {
     'form.status': () => renderForm(state.form, elements, i18n),
-    'form.error': () => renderError(state.form.error, elements),
   };
 
   const watchedState = onChange(state, (path) => {

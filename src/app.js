@@ -1,11 +1,17 @@
 import i18next from 'i18next';
 import resources from './locales/index';
+import axios from 'axios';
 import initView from './view';
 import validate from './validate';
+import parse from './parser';
 
 const getUrl = (form) => {
   const formData = new FormData(form);
   return formData.get('url').trim();
+};
+
+const routes = {
+  getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`
 };
 
 const app = () => {
@@ -40,21 +46,31 @@ const app = () => {
 
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
+        watchedState.form.error = '';
+        watchedState.form.status = 'filling';
 
         const url = getUrl(e.target);
 
         validate(url, watchedState.validUrls, i18nextInstance)
           .then(() => {
-            watchedState.form.error = '';
-            watchedState.form.status = 'finished';
             watchedState.form.enteredUrl = url;
             watchedState.validUrls.push(url);
+            axios.get(routes.getRssPath(url))
+              .then((response) => {
+                const parseData = parse(response.data.contents, i18nextInstance);
+                console.log(parseData)
+              })
+              .catch(({ message }) => {
+                watchedState.form.error = message;
+                watchedState.form.status = 'failed';
+              });
           })
           .catch(({ message }) => {
             watchedState.form.error = message;
             watchedState.form.status = 'failed';
           });
       });
+      console.log(watchedState)
     });
 };
 
