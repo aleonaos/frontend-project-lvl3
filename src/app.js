@@ -15,6 +15,23 @@ const routes = {
   getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`,
 };
 
+const updatePosts = (state) => {
+  state.outputData.updateStatus = 'loading';
+
+  const { validUrls: links } = state;
+  links.forEach((link) => {
+    axios.get(routes.getRssPath(link))
+      .then((response) => {
+        const { posts: updatePosts } = parse(response.data.contents);
+        const { posts } = state.outputData;
+        const newPosts = _.differenceWith(posts, updatePosts, _.isEqual);
+        state.outputData.posts = [...newPosts, ...state.outputData.posts];
+        state.outputData.updateStatus = 'loaded';
+      });
+  });
+  setTimeout(() => updatePosts(state, links), 5000);
+};
+
 const app = () => {
   const i18nextInstance = i18next.createInstance();
   return i18nextInstance.init({
@@ -31,6 +48,7 @@ const app = () => {
         },
         validUrls: [],
         outputData: {
+          updateStatus: 'loading',
           feeds: [],
           posts: [],
         },
@@ -64,15 +82,15 @@ const app = () => {
 
                 const feedId = _.uniqueId();
                 watchedState.outputData.feeds.push({ id: feedId, ...newFeeds });
-                const newPostsWithId = newPosts.map((post) => ({ feedId, ...post }));
-                watchedState.outputData.posts.push(...newPostsWithId);
+                watchedState.outputData.posts.push(...newPosts);
                 watchedState.validUrls.push(url);
                 watchedState.form.status = 'finished';
               })
               .catch(({ message }) => {
                 watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
                 watchedState.form.status = 'failed';
-              });
+              })
+              .then(() => updatePosts(watchedState));
           })
           .catch(({ message }) => {
             watchedState.form.error = message;

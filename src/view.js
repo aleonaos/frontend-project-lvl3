@@ -84,7 +84,7 @@ const renderPosts = (posts, outputElements, i18n) => {
       'justify-content-between',
       'align-items-start',
       'border-0',
-      'border-end-0'
+      'border-end-0',
     );
 
     const link = document.createElement('a');
@@ -143,8 +143,15 @@ const initView = (state, elements, i18n) => {
   elements.input.focus();
 
   const watchedState = onChange(state, (path) => {
-    if (path === 'form.status') {
-      renderForm(state, elements, i18n);
+    switch (path) {
+      case 'form.status':
+        renderForm(state, elements, i18n);
+        break;
+      case 'outputData.updateStatus':
+        renderContent(state.outputData, elements, i18n);
+        break;
+      default:
+        break;
     }
   });
 
