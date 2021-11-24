@@ -15,23 +15,6 @@ const routes = {
   getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`,
 };
 
-const updatePosts = (state) => {
-  state.outputData.updateStatus = 'loading';
-
-  const { validUrls: links } = state;
-  links.forEach((link) => {
-    axios.get(routes.getRssPath(link))
-      .then((response) => {
-        const { posts: updatePosts } = parse(response.data.contents);
-        const { posts } = state.outputData;
-        const newPosts = _.differenceWith(posts, updatePosts, _.isEqual);
-        state.outputData.posts = [...newPosts, ...state.outputData.posts];
-        state.outputData.updateStatus = 'loaded';
-      });
-  });
-  setTimeout(() => updatePosts(state, links), 5000);
-};
-
 const app = () => {
   const i18nextInstance = i18next.createInstance();
   return i18nextInstance.init({
@@ -64,6 +47,23 @@ const app = () => {
       };
 
       const watchedState = initView(state, elements, i18nextInstance);
+
+      const updatePosts = (state) => {
+        watchedState.outputData.updateStatus = 'loading';
+      
+        const { validUrls: links } = state;
+        links.forEach((link) => {
+          axios.get(routes.getRssPath(link))
+            .then((response) => {
+              const { posts: updatedPosts } = parse(response.data.contents);
+              const { posts } = state.outputData;
+              const newPosts = _.differenceWith(posts, updatedPosts, _.isEqual);
+              watchedState.outputData.posts = [...newPosts, ...posts];
+              watchedState.outputData.updateStatus = 'loaded';
+            });
+        });
+        setTimeout(() => updatePosts(state, links), 5000);
+      };
 
       elements.form.addEventListener('submit', (e) => {
         e.preventDefault();
