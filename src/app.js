@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import axios from 'axios';
+import _ from 'lodash';
 import resources from './locales/index';
 import initView from './view';
 import validate from './validate';
@@ -60,10 +61,14 @@ const app = () => {
               .then((response) => {
                 const parseData = parse(response.data.contents);
                 const { feed: newFeeds, posts: newPosts } = parseData;
-                watchedState.outputData.feeds.push(newFeeds);
-                watchedState.outputData.posts.push(...newPosts);
+
+                const feedId = _.uniqueId();
+                watchedState.outputData.feeds.push({ id: feedId, ...newFeeds });
+                const newPostsWithId = newPosts.map((post) => ({ feedId, ...post }));
+                watchedState.outputData.posts.push(...newPostsWithId);
                 watchedState.validUrls.push(url);
                 watchedState.form.status = 'finished';
+                console.log(watchedState)
               })
               .catch(({ message }) => {
                 watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);

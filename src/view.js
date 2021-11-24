@@ -87,7 +87,7 @@ const renderPosts = (posts, postsElement, i18n) => {
 
     const link = document.createElement('a');
     link.setAttribute('href', post.postLink);
-    link.setAttribute('data-id', post.feedId);
+    link.setAttribute('data-id', post.postId);
     link.setAttribute('rel', 'noopener noreferrer');
     link.setAttribute('target', '_blank');
     link.classList.add('fw-bold');
@@ -95,7 +95,7 @@ const renderPosts = (posts, postsElement, i18n) => {
 
     const viewButton = document.createElement('button');
     viewButton.setAttribute('type', 'button');
-    viewButton.setAttribute('data-id', post.feedId);
+    viewButton.setAttribute('data-id', post.postId);
     viewButton.setAttribute('data-bs-toggle', 'modal');
     viewButton.setAttribute('data-bs-target', '#modal');
     viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
