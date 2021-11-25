@@ -1,7 +1,10 @@
 export default {
   translation: {
     feedsBlock: 'Фиды',
-    postsBlock: 'Посты',
+    postsBlock: {
+      title: 'Посты',
+      button: 'Просмотр',
+    },
     feedback: {
       success: 'RSS успешно загружен',
       error: {

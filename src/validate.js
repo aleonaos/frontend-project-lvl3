@@ -13,6 +13,7 @@ export default (address, validUrls, i18n) => {
   const schema = yup.object().shape({
     url: yup
       .string()
+      .required()
       .url()
       .notOneOf(validUrls),
   });

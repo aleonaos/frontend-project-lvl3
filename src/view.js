@@ -98,20 +98,20 @@ const renderPosts = (posts, readPosts, i18n) => {
     viewButton.setAttribute('data-id', post.postId);
     viewButton.setAttribute('data-bs-toggle', 'modal');
     viewButton.setAttribute('data-bs-target', '#modal');
-    viewButton.innerHTML = 'Просмотр';
+    viewButton.innerHTML = i18n.t('postsBlock.button');
 
     liElement.append(link, viewButton);
     postsList.append(liElement);
   });
 
-  const postsContaiter = buildContainer(i18n.t('postsBlock'), postsList);
+  const postsContaiter = buildContainer(i18n.t('postsBlock.title'), postsList);
 
   return postsContaiter;
 };
 
 const renderContent = (data, outputElements, i18n) => {
   const { feeds, posts, readPosts } = data;
-  const { feeds: feedsElement, posts: postsElement} = outputElements;
+  const { feeds: feedsElement, posts: postsElement } = outputElements;
 
   const feedsContainer = renderFeeds(feeds, i18n);
   const postsContainer = renderPosts(posts, readPosts, i18n);
