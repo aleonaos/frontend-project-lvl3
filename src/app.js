@@ -37,8 +37,8 @@ const app = () => {
           readPosts: [],
         },
         modal: {
-          show: false,
-          postViewId: '',
+          modalView: 'hidden',
+          postView: {},
         }, 
       };
 
@@ -49,6 +49,7 @@ const app = () => {
         feedback: document.querySelector('.feedback'),
         posts: document.querySelector('.posts'),
         feeds: document.querySelector('.feeds'),
+        modal: document.querySelector('.modal'),
       };
 
       const watchedState = initView(state, elements, i18nextInstance);
@@ -68,7 +69,7 @@ const app = () => {
               watchedState.outputData.updateStatus = 'loaded';
             });
         });
-        setTimeout(() => updatePosts(),20000);
+        setTimeout(() => updatePosts(), 5000);
       };
 
       elements.form.addEventListener('submit', (e) => {
@@ -113,9 +114,10 @@ const app = () => {
         }
 
         if (type === 'button') {
-          watchedState.modal.postViewId = id;
-          watchedState.modal.show = true;
-          watchedState.modal.show = false;
+          const postView = watchedState.outputData.posts.find(({ postId }) => postId === id);
+          watchedState.modal.postView = { ... postView };
+          watchedState.modal.modalView = 'show';
+          watchedState.modal.modalView = 'hidden';
         }
       });
     });

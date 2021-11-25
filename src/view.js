@@ -1,25 +1,5 @@
 import onChange from 'on-change';
 
-const renderSuccess = (elements, i18n) => {
-  const { form, input, feedback } = elements;
-
-  form.reset();
-  input.focus();
-  input.classList.remove('is-invalid');
-  feedback.classList.remove('text-danger');
-  feedback.classList.add('text-success');
-  feedback.innerHTML = i18n.t('feedback.success');
-};
-
-const renderError = (error, elements) => {
-  const { input, feedback } = elements;
-
-  input.classList.add('is-invalid');
-  feedback.classList.remove('text-success');
-  feedback.classList.add('text-danger');
-  feedback.innerHTML = error;
-};
-
 const buildContainer = (title, list) => {
   const container = document.createElement('div');
   container.classList.add('card', 'border-0');
@@ -42,6 +22,27 @@ const buildUlElement = () => {
   ulElement.classList.add('list-group', 'border-0', 'rounded-0');
 
   return ulElement;
+};
+
+const renderSuccess = (elements, i18n) => {
+  const { form, input, feedback } = elements;
+
+  form.reset();
+  input.focus();
+
+  input.classList.remove('is-invalid');
+  feedback.classList.remove('text-danger');
+  feedback.classList.add('text-success');
+  feedback.innerHTML = i18n.t('feedback.success');
+};
+
+const renderError = (error, elements) => {
+  const { input, feedback } = elements;
+
+  input.classList.add('is-invalid');
+  feedback.classList.remove('text-success');
+  feedback.classList.add('text-danger');
+  feedback.innerHTML = error;
 };
 
 const renderFeeds = (feeds, outputElements, i18n) => {
@@ -88,24 +89,21 @@ const renderPosts = (posts, readPosts, outputElements, i18n) => {
     );
 
     const link = document.createElement('a');
+    const classNames = readPosts.includes(post.postId) ? 'fw-normal, link-secondary' : 'fw-bold';
     link.setAttribute('href', post.postLink);
     link.setAttribute('data-id', post.postId);
     link.setAttribute('rel', 'noopener noreferrer');
     link.setAttribute('target', '_blank');
-
-    if (readPosts.includes(post.postId)) {
-      link.classList.add('fw-normal', 'link-secondary');
-    } else {
-      link.classList.add('fw-bold');
-    }
+    link.setAttribute('class', classNames);
+    
     link.innerHTML = post.postTitle;
 
     const viewButton = document.createElement('button');
     viewButton.setAttribute('type', 'button');
+    viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     viewButton.setAttribute('data-id', post.postId);
     viewButton.setAttribute('data-bs-toggle', 'modal');
     viewButton.setAttribute('data-bs-target', '#modal');
-    viewButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     viewButton.innerHTML = 'Просмотр';
 
     liElement.append(link, viewButton);
@@ -152,10 +150,22 @@ const renderReadPosts = (readPosts) => {
   })
 };
 
+const renderModal = (modal, { modal: modalElement }) => {
+  const modalTitle = modalElement.querySelector('.modal-title');
+  const modalBody = modalElement.querySelector('.modal-body');
+  const modalLink = modalElement.querySelector('.full-article');
+
+  const { postTitle, postDescription, postLink } = modal.postView;
+
+  modalTitle.innerHTML = postTitle;
+  modalBody.textContent = postDescription;
+  modalLink.setAttribute('href', postLink);
+};
+
 const initView = (state, elements, i18n) => {
   elements.input.focus();
 
-  const watchedState = onChange(state, (path) => {
+  const watchedState = onChange(state, (path, value) => {
     switch (path) {
       case 'form.status':
         renderForm(state, elements, i18n);
@@ -165,6 +175,11 @@ const initView = (state, elements, i18n) => {
         break;
       case 'outputData.readPosts':
         renderReadPosts(state.outputData.readPosts);
+        break;
+      case 'modal.modalView':
+        if (value === 'show') {
+          renderModal(state.modal, elements);
+        }
         break;
       default:
         break;
