@@ -34,7 +34,12 @@ const app = () => {
           updateStatus: 'loading',
           feeds: [],
           posts: [],
+          readPosts: [],
         },
+        modal: {
+          show: false,
+          postViewId: '',
+        }, 
       };
 
       const elements = {
@@ -50,7 +55,7 @@ const app = () => {
 
       const updatePosts = () => {
         watchedState.outputData.updateStatus = 'loading';
-      
+
         const { validUrls: links } = watchedState;
         links.forEach((link) => {
           axios.get(routes.getRssPath(link))
@@ -98,7 +103,23 @@ const app = () => {
             watchedState.form.status = 'failed';
           });
       });
+
+      elements.posts.addEventListener('click', (e) => {
+        const { id } = e.target.dataset;
+        const { type } = e.target;
+
+        if (!watchedState.outputData.readPosts.includes(id)) {
+          watchedState.outputData.readPosts.push(id);
+        }
+
+        if (type === 'button') {
+          watchedState.modal.postViewId = id;
+          watchedState.modal.show = true;
+          watchedState.modal.show = false;
+        }
+      });
     });
 };
 
 export default app;
+
