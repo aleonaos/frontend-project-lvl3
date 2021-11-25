@@ -39,7 +39,7 @@ const app = () => {
         modal: {
           modalView: 'hidden',
           postView: {},
-        }, 
+        },
       };
 
       const elements = {
@@ -115,7 +115,7 @@ const app = () => {
 
         if (type === 'button') {
           const postView = watchedState.outputData.posts.find(({ postId }) => postId === id);
-          watchedState.modal.postView = { ... postView };
+          watchedState.modal.postView = { ...postView };
           watchedState.modal.modalView = 'show';
           watchedState.modal.modalView = 'hidden';
         }
@@ -124,4 +124,3 @@ const app = () => {
 };
 
 export default app;
-

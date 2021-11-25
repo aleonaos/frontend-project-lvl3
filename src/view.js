@@ -95,7 +95,6 @@ const renderPosts = (posts, readPosts, outputElements, i18n) => {
     link.setAttribute('rel', 'noopener noreferrer');
     link.setAttribute('target', '_blank');
     link.setAttribute('class', classNames);
-    
     link.innerHTML = post.postTitle;
 
     const viewButton = document.createElement('button');
@@ -147,7 +146,7 @@ const renderReadPosts = (readPosts) => {
     const readPost = document.querySelector(`[data-id="${id}"]`);
     readPost.classList.remove('fw-bold');
     readPost.classList.add('fw-normal', 'link-secondary');
-  })
+  });
 };
 
 const renderModal = (modal, { modal: modalElement }) => {
