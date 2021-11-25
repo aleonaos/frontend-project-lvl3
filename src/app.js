@@ -55,15 +55,14 @@ const app = () => {
       const watchedState = initView(state, elements, i18nextInstance);
 
       const updatePosts = () => {
-        watchedState.outputData.updateStatus = 'loading';
-
+        watchedState.outputData.updateStatus = ' loading';
         const { validUrls: links } = watchedState;
         links.forEach((link) => {
           axios.get(routes.getRssPath(link))
             .then((response) => {
               const { posts: updatedPosts } = parse(response.data.contents);
               const { posts } = watchedState.outputData;
-              const newPosts = _.differenceWith(posts, updatedPosts, _.isEqual);
+              const newPosts = _.differenceWith(updatedPosts, posts, _.isEqual);
 
               watchedState.outputData.posts = [...newPosts, ...posts];
               watchedState.outputData.updateStatus = 'loaded';
@@ -90,18 +89,21 @@ const app = () => {
                 const feedId = _.uniqueId();
                 watchedState.outputData.feeds.push({ id: feedId, ...newFeeds });
                 watchedState.outputData.posts.push(...newPosts);
-                watchedState.validUrls.push(url);
                 watchedState.form.status = 'finished';
               })
               .catch(({ message }) => {
                 watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
                 watchedState.form.status = 'failed';
               })
-              .then(() => updatePosts(watchedState));
+              .then(() => updatePosts());
           })
           .catch(({ message }) => {
             watchedState.form.error = message;
             watchedState.form.status = 'failed';
+          })
+          .then(() => {
+            watchedState.validUrls.push(url);
+            watchedState.form.status = 'filling';
           });
       });
 

@@ -45,10 +45,7 @@ const renderError = (error, elements) => {
   feedback.innerHTML = error;
 };
 
-const renderFeeds = (feeds, outputElements, i18n) => {
-  const { feeds: feedsElement } = outputElements;
-  feedsElement.innerHTML = '';
-
+const renderFeeds = (feeds, i18n) => {
   const feedsList = buildUlElement();
 
   feeds.forEach((feed) => {
@@ -68,13 +65,11 @@ const renderFeeds = (feeds, outputElements, i18n) => {
   });
 
   const feedsContainer = buildContainer(i18n.t('feedsBlock'), feedsList);
-  feedsElement.append(feedsContainer);
+
+  return feedsContainer;
 };
 
-const renderPosts = (posts, readPosts, outputElements, i18n) => {
-  const { posts: postsElement } = outputElements;
-  postsElement.innerHTML = '';
-
+const renderPosts = (posts, readPosts, i18n) => {
   const postsList = buildUlElement();
 
   posts.forEach((post) => {
@@ -110,14 +105,19 @@ const renderPosts = (posts, readPosts, outputElements, i18n) => {
   });
 
   const postsContaiter = buildContainer(i18n.t('postsBlock'), postsList);
-  postsElement.append(postsContaiter);
+
+  return postsContaiter;
 };
 
 const renderContent = (data, outputElements, i18n) => {
   const { feeds, posts, readPosts } = data;
+  const { feeds: feedsElement, posts: postsElement} = outputElements;
 
-  renderFeeds(feeds, outputElements, i18n);
-  renderPosts(posts, readPosts, outputElements, i18n);
+  const feedsContainer = renderFeeds(feeds, i18n);
+  const postsContainer = renderPosts(posts, readPosts, i18n);
+
+  feedsElement.replaceChildren(feedsContainer);
+  postsElement.replaceChildren(postsContainer);
 };
 
 const renderForm = (state, elements, i18n) => {
@@ -170,7 +170,9 @@ const initView = (state, elements, i18n) => {
         renderForm(state, elements, i18n);
         break;
       case 'outputData.updateStatus':
-        renderContent(state.outputData, elements, i18n);
+        if (value === 'loaded') {
+          renderContent(state.outputData, elements, i18n);
+        }
         break;
       case 'outputData.readPosts':
         renderReadPosts(state.outputData.readPosts);
