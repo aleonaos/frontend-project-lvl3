@@ -68,7 +68,7 @@ const app = () => {
               watchedState.outputData.updateStatus = 'loaded';
             });
         });
-        setTimeout(() => updatePosts(), 5000);
+        setTimeout(() => updatePosts(),20000);
       };
 
       elements.form.addEventListener('submit', (e) => {

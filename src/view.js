@@ -70,7 +70,7 @@ const renderFeeds = (feeds, outputElements, i18n) => {
   feedsElement.append(feedsContainer);
 };
 
-const renderPosts = (posts, outputElements, i18n) => {
+const renderPosts = (posts, readPosts, outputElements, i18n) => {
   const { posts: postsElement } = outputElements;
   postsElement.innerHTML = '';
 
@@ -92,7 +92,12 @@ const renderPosts = (posts, outputElements, i18n) => {
     link.setAttribute('data-id', post.postId);
     link.setAttribute('rel', 'noopener noreferrer');
     link.setAttribute('target', '_blank');
-    link.classList.add('fw-bold');
+
+    if (readPosts.includes(post.postId)) {
+      link.classList.add('fw-normal', 'link-secondary');
+    } else {
+      link.classList.add('fw-bold');
+    }
     link.innerHTML = post.postTitle;
 
     const viewButton = document.createElement('button');
@@ -112,10 +117,10 @@ const renderPosts = (posts, outputElements, i18n) => {
 };
 
 const renderContent = (data, outputElements, i18n) => {
-  const { feeds, posts } = data;
+  const { feeds, posts, readPosts } = data;
 
   renderFeeds(feeds, outputElements, i18n);
-  renderPosts(posts, outputElements, i18n);
+  renderPosts(posts, readPosts, outputElements, i18n);
 };
 
 const renderForm = (state, elements, i18n) => {
@@ -139,6 +144,14 @@ const renderForm = (state, elements, i18n) => {
   }
 };
 
+const renderReadPosts = (readPosts) => {
+  readPosts.forEach((id) => {
+    const readPost = document.querySelector(`[data-id="${id}"]`);
+    readPost.classList.remove('fw-bold');
+    readPost.classList.add('fw-normal', 'link-secondary');
+  })
+};
+
 const initView = (state, elements, i18n) => {
   elements.input.focus();
 
@@ -149,6 +162,9 @@ const initView = (state, elements, i18n) => {
         break;
       case 'outputData.updateStatus':
         renderContent(state.outputData, elements, i18n);
+        break;
+      case 'outputData.readPosts':
+        renderReadPosts(state.outputData.readPosts);
         break;
       default:
         break;
