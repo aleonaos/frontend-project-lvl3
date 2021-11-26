@@ -4,3 +4,10 @@
 [![Node CI](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml)
 
 ### Ссылка на сайт: https://frontend-project-lvl3-aleonaos.vercel.app/
+
+Rss Агрегатор – сервис для агрегации RSS-потоков, с помощью которых удобно читать разнообразные источники, например, блоги. Он позволяет добавлять неограниченное количество RSS-лент, сам их обновляет и добавляет новые записи в общий поток.
+
+Примеры rss-ссылок для использования:
+[HexletLessons](https://ru.hexlet.io/lessons.rss)
+[HexletBlog](https://ru.hexlet.io/blog.rss)
+[News](http://lenta.ru/rss/news)
