@@ -27,7 +27,6 @@ const app = () => {
         form: {
           status: 'filling',
           error: '',
-          enteredUrl: '',
         },
         validUrls: [],
         outputData: {
@@ -45,7 +44,7 @@ const app = () => {
       const elements = {
         form: document.querySelector('.rss-form'),
         input: document.querySelector('#url-input'),
-        submit: document.querySelector('button'),
+        submit: document.querySelector('[aria-label="add"]'),
         feedback: document.querySelector('.feedback'),
         posts: document.querySelector('.posts'),
         feeds: document.querySelector('.feeds'),
@@ -55,7 +54,7 @@ const app = () => {
       const watchedState = initView(state, elements, i18nextInstance);
 
       const updatePosts = () => {
-        watchedState.outputData.updateStatus = ' loading';
+        watchedState.outputData.updateStatus = 'loading';
         const { validUrls: links } = watchedState;
         links.forEach((link) => {
           axios.get(routes.getRssPath(link))
@@ -81,7 +80,6 @@ const app = () => {
         validate(url, watchedState.validUrls, i18nextInstance)
           .then(() => {
             watchedState.form.status = 'processed';
-            watchedState.form.enteredUrl = url;
             axios.get(routes.getRssPath(url))
               .then((response) => {
                 const parseData = parse(response.data.contents);
