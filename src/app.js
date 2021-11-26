@@ -84,6 +84,11 @@ const app = () => {
             axios.get(routes.getRssPath(url))
               .then((response) => {
                 const parseData = parse(response.data.contents);
+
+                if (!parseData) {
+                  throw new Error('parserError');
+                }
+
                 const { feed: newFeeds, posts: newPosts } = parseData;
 
                 const feedId = _.uniqueId();
@@ -92,8 +97,8 @@ const app = () => {
                 watchedState.form.status = 'finished';
               })
               .catch(({ message }) => {
-                watchedState.form.error = message === 'parserError' 
-                  ? i18nextInstance.t('feedback.error.parserError') 
+                watchedState.form.error = message === 'parserError'
+                  ? i18nextInstance.t('feedback.error.parserError')
                   : watchedState.form.error = i18nextInstance.t('feedback.error.networkErr');
                 watchedState.form.status = 'failed';
               })

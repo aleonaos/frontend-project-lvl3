@@ -3,7 +3,7 @@ export default (content) => {
   const rssData = parser.parseFromString(content, 'text/xml');
 
   if (rssData.querySelector('parsererror')) {
-    throw new Error('parserError');
+    return null;
   }
 
   const feedTitle = rssData.querySelector('title').textContent;
