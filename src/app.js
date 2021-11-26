@@ -92,7 +92,11 @@ const app = () => {
                 watchedState.form.status = 'finished';
               })
               .catch(({ message }) => {
-                watchedState.form.error = i18nextInstance.t(`feedback.error.${message}`);
+                if (message = 'parserError') {
+                  watchedState.form.error = i18nextInstance.t('feedback.error.parserError');
+                } else {
+                  watchedState.form.error = i18nextInstance.t('feedback.error.networkErr');
+                }
                 watchedState.form.status = 'failed';
               })
               .then(() => updatePosts());
