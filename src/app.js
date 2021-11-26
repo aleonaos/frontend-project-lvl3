@@ -69,7 +69,6 @@ const app = () => {
               updatePosts();
             })
             .catch((e) => {
-              console.log(e);
               watchedState.outputData.updateStatus = 'loading';
               updatePosts();
             });
