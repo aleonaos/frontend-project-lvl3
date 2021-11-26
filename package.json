@@ -10,7 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/aleonaos/frontend-project-lvl3.git"
   },
-  "keywords": [],
+  "keywords": [
+    "hexlet",
+    "project",
+    "rss"
+  ],
   "author": "Alyona Osotova",
   "license": "ISC",
   "bugs": {
