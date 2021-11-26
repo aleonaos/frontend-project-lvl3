@@ -55,24 +55,25 @@ const app = () => {
 
       const updatePosts = () => {
         watchedState.outputData.updateStatus = 'loading';
-        const { validUrls } = watchedState;
-        validUrls.forEach((link) => {
-          axios.get(routes.getRssPath(link))
-            .then((response) => {
-              const parseData = parse(response.data.contents);
-              const { posts: updatedPosts } = parseData;
+        setTimeout(() => {
+          const request = (path) => axios.get(routes.getRssPath(path))
+            .then((response) => parse(response.data.contents))
+            .then(({ posts }) => posts);
+          Promise.all(watchedState.validUrls.map((link) => request(link)))
+            .then((data) => {
+              const updatedPosts = data.flat();
               const { posts } = watchedState.outputData;
-              const newPosts = _.differenceWith(updatedPosts, posts, _.isEqual);
-
-              watchedState.outputData.posts = [...newPosts, ...posts];
+              const newPosts = _.differenceWith(updatedPosts, updatedPosts, _.isEqual);
+              watchedState.outputData.posts.unshift(...newPosts);
               watchedState.outputData.updateStatus = 'loaded';
+              updatePosts();
             })
             .catch((e) => {
               console.log(e);
+              watchedState.outputData.updateStatus = 'loading';
               updatePosts();
             });
-        });
-        setTimeout(() => updatePosts(), 5000);
+        }, 5000);
       };
 
       elements.form.addEventListener('submit', (e) => {
