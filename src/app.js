@@ -68,7 +68,7 @@ const app = () => {
               watchedState.outputData.updateStatus = 'loaded';
               updatePosts();
             })
-            .catch((e) => {
+            .catch(() => {
               watchedState.outputData.updateStatus = 'loading';
               updatePosts();
             });
