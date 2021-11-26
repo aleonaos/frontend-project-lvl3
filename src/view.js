@@ -113,11 +113,11 @@ const renderContent = (data, outputElements, i18n) => {
   const { feeds, posts, readPosts } = data;
   const { feeds: feedsElement, posts: postsElement } = outputElements;
 
-  const feedsContainer = renderFeeds(feeds, i18n);
-  const postsContainer = renderPosts(posts, readPosts, i18n);
+  const feedsView = renderFeeds(feeds, i18n);
+  const postsView = renderPosts(posts, readPosts, i18n);
 
-  feedsElement.replaceChildren(feedsContainer);
-  postsElement.replaceChildren(postsContainer);
+  feedsElement.replaceChildren(feedsView);
+  postsElement.replaceChildren(postsView);
 };
 
 const renderForm = (state, elements, i18n) => {
