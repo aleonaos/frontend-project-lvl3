@@ -45,7 +45,7 @@ const renderError = (error, elements) => {
   feedback.innerHTML = error;
 };
 
-const renderFeeds = (feeds, i18n) => {
+const renderFeeds = (feeds, feedsElement, i18n) => {
   const feedsList = buildUlElement();
 
   feeds.forEach((feed) => {
@@ -66,10 +66,10 @@ const renderFeeds = (feeds, i18n) => {
 
   const feedsContainer = buildContainer(i18n.t('feedsBlock'), feedsList);
 
-  return feedsContainer;
+  feedsElement.replaceChildren(feedsContainer);
 };
 
-const renderPosts = (posts, readPosts, i18n) => {
+const renderPosts = (posts, readPosts, postsElement, i18n) => {
   const postsList = buildUlElement();
 
   posts.forEach((post) => {
@@ -106,18 +106,15 @@ const renderPosts = (posts, readPosts, i18n) => {
 
   const postsContaiter = buildContainer(i18n.t('postsBlock.title'), postsList);
 
-  return postsContaiter;
+  postsElement.replaceChildren(postsContaiter);
 };
 
 const renderContent = (data, outputElements, i18n) => {
   const { feeds, posts, readPosts } = data;
   const { feeds: feedsElement, posts: postsElement } = outputElements;
 
-  const feedsView = renderFeeds(feeds, i18n);
-  const postsView = renderPosts(posts, readPosts, i18n);
-
-  feedsElement.replaceChildren(feedsView);
-  postsElement.replaceChildren(postsView);
+  renderFeeds(feeds, feedsElement, i18n);
+  renderPosts(posts, readPosts, postsElement, i18n);
 };
 
 const renderForm = (state, elements, i18n) => {
