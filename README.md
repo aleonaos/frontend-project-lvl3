@@ -1,3 +1,7 @@
+## Rss Агрегатор
+
+Rss Агрегатор – сервис для агрегации RSS-потоков, с помощью которых удобно читать разнообразные источники, например, блоги. Он позволяет добавлять неограниченное количество RSS-лент, сам их обновляет и добавляет новые записи в общий поток.
+
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/aleonaos/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/aleonaos/frontend-project-lvl3/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/594c4ebe6eba8aafbbfa/maintainability)](https://codeclimate.com/github/aleonaos/frontend-project-lvl3/maintainability)
@@ -5,9 +9,7 @@
 
 ### Ссылка на сайт: https://frontend-project-lvl3-aleonaos.vercel.app/
 
-Rss Агрегатор – сервис для агрегации RSS-потоков, с помощью которых удобно читать разнообразные источники, например, блоги. Он позволяет добавлять неограниченное количество RSS-лент, сам их обновляет и добавляет новые записи в общий поток.
-
-Примеры rss-ссылок для использования:
-[HexletLessons](https://ru.hexlet.io/lessons.rss)
-[HexletBlog](https://ru.hexlet.io/blog.rss)
-[News](http://lenta.ru/rss/news)
+#### Примеры rss-ссылок для использования:
+* [HexletLessons](https://ru.hexlet.io/lessons.rss)
+* [HexletBlog](https://ru.hexlet.io/blog.rss)
+* [News](http://lenta.ru/rss/news)
