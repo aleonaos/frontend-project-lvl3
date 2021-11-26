@@ -12,7 +12,7 @@ const getUrl = (form) => {
 };
 
 const routes = {
-  getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`,
+  getRssPath: (url) => `https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${encodeURIComponent(url)}`,
 };
 
 const app = () => {
