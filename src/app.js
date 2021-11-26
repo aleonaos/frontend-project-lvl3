@@ -59,7 +59,8 @@ const app = () => {
         links.forEach((link) => {
           axios.get(routes.getRssPath(link))
             .then((response) => {
-              const { posts: updatedPosts } = parse(response.data.contents);
+              const parseData = parse(response.data.contents);
+              const { posts: updatedPosts } = parseData;
               const { posts } = watchedState.outputData;
               const newPosts = _.differenceWith(updatedPosts, posts, _.isEqual);
 
