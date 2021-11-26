@@ -63,7 +63,7 @@ const app = () => {
             .then((data) => {
               const updatedPosts = data.flat();
               const { posts } = watchedState.outputData;
-              const newPosts = _.differenceWith(updatedPosts, updatedPosts, _.isEqual);
+              const newPosts = _.differenceWith(updatedPosts, posts, _.isEqual);
               watchedState.outputData.posts.unshift(...newPosts);
               watchedState.outputData.updateStatus = 'loaded';
               updatePosts();
