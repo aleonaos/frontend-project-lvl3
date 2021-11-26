@@ -55,8 +55,8 @@ const app = () => {
 
       const updatePosts = () => {
         watchedState.outputData.updateStatus = 'loading';
-        const { validUrls: links } = watchedState;
-        links.forEach((link) => {
+        const { validUrls } = watchedState;
+        validUrls.forEach((link) => {
           axios.get(routes.getRssPath(link))
             .then((response) => {
               const parseData = parse(response.data.contents);
@@ -66,6 +66,10 @@ const app = () => {
 
               watchedState.outputData.posts = [...newPosts, ...posts];
               watchedState.outputData.updateStatus = 'loaded';
+            })
+            .catch((e) => {
+              console.log(e);
+              updatePosts();
             });
         });
         setTimeout(() => updatePosts(), 5000);
