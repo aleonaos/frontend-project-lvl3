@@ -10,6 +10,6 @@ Rss Агрегатор – сервис для агрегации RSS-поток
 ### Ссылка на сайт: https://frontend-project-lvl3-aleonaos.vercel.app/
 
 #### Примеры rss-ссылок для использования:
-* [HexletLessons](https://ru.hexlet.io/lessons.rss)
-* [HexletBlog](https://ru.hexlet.io/blog.rss)
-* [News](http://lenta.ru/rss/news)
+* https://ru.hexlet.io/lessons.rss
+* https://ru.hexlet.io/blog.rss
+* http://lenta.ru/rss/news
