@@ -80,6 +80,7 @@ const app = () => {
 
         validate(url, watchedState.validUrls, i18nextInstance)
           .then(() => {
+            watchedState.form.status = 'processed';
             watchedState.form.enteredUrl = url;
             axios.get(routes.getRssPath(url))
               .then((response) => {

@@ -121,19 +121,27 @@ const renderContent = (data, outputElements, i18n) => {
 };
 
 const renderForm = (state, elements, i18n) => {
-  const { submit } = elements;
+  const { input, feedback, submit } = elements;
 
   switch (state.form.status) {
     case 'filling':
+      submit.removeAttribute('disabled');
+      input.removeAttribute('readonly');
+      break;
+    case 'processed':
+      feedback.textContent = '';
+      input.setAttribute('readonly', true);
       submit.setAttribute('disabled', true);
       break;
     case 'finished':
       submit.removeAttribute('disabled');
+      input.removeAttribute('readonly');
       renderSuccess(elements, i18n);
       renderContent(state.outputData, elements, i18n);
       break;
     case 'failed':
       submit.removeAttribute('disabled');
+      input.removeAttribute('readonly');
       renderError(state.form.error, elements);
       break;
     default:
