@@ -7,7 +7,7 @@ Rss Агрегатор – сервис для агрегации RSS-поток
 [![Maintainability](https://api.codeclimate.com/v1/badges/594c4ebe6eba8aafbbfa/maintainability)](https://codeclimate.com/github/aleonaos/frontend-project-lvl3/maintainability)
 [![Node CI](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml)
 
-### Ссылка на сайт: https://frontend-project-lvl3-aleonaos.vercel.app/
+### Ссылка на сайт: https://rss-reader-aleonaos.vercel.app/
 
 #### Примеры rss-ссылок для использования:
 * https://ru.hexlet.io/lessons.rss
