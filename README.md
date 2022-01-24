@@ -8,7 +8,7 @@ Rss Агрегатор – сервис для агрегации RSS-поток
 [![Maintainability](https://api.codeclimate.com/v1/badges/594c4ebe6eba8aafbbfa/maintainability)](https://codeclimate.com/github/aleonaos/frontend-project-lvl3/maintainability)
 [![Node CI](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/aleonaos/frontend-project-lvl3/actions/workflows/nodejs.yml)
 
-Стек: _HTML, bootstrap, JS, axios, yup, i18next, on-Change, all-origins, npx, webpack, git, gitHub Actions (CI), make_.
+Стек: _HTML, bootstrap, JS, axios, yup, i18next, on-Change, npx, webpack, git, gitHub Actions (CI), make_.
 
 Основные задачи проекта:
 
